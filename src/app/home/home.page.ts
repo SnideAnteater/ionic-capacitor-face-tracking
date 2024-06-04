@@ -69,57 +69,42 @@ export class HomePage {
       // Draw the results on the canvas (comment this out to improve performance or add even more markers like mouth, etc).
       if (results.faceLandmarks) for (const landmarks of results.faceLandmarks) {
         // console.log(landmarks);
-        drawingUtils.drawConnectors(
-        landmarks,
-        FaceLandmarker.FACE_LANDMARKS_TESSELATION,
-        { color: "#C0C0C070", lineWidth: 1 }
-      );
-      drawingUtils.drawConnectors(
-        landmarks,
-        FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE,
-        { color: "#FF3030" }
-      );
-      drawingUtils.drawConnectors(
-        landmarks,
-        FaceLandmarker.FACE_LANDMARKS_RIGHT_EYEBROW,
-        { color: "#FF3030" }
-      );
-      drawingUtils.drawConnectors(
-        landmarks,
-        FaceLandmarker.FACE_LANDMARKS_LEFT_EYE,
-        { color: "#30FF30" }
-      );
-      drawingUtils.drawConnectors(
-        landmarks,
-        FaceLandmarker.FACE_LANDMARKS_LEFT_EYEBROW,
-        { color: "#30FF30" }
-      );
-      drawingUtils.drawConnectors(
-        landmarks,
-        FaceLandmarker.FACE_LANDMARKS_FACE_OVAL,
-        { color: "#E0E0E0" }
-      );
-      drawingUtils.drawConnectors(
-        landmarks,
-        FaceLandmarker.FACE_LANDMARKS_LIPS,
-        { color: "#E0E0E0" }
-      );
-      drawingUtils.drawConnectors(
-        landmarks,
-        FaceLandmarker.FACE_LANDMARKS_RIGHT_IRIS,
-        { color: "#FF3030" }
-      );
-      drawingUtils.drawConnectors(
-        landmarks,
-        FaceLandmarker.FACE_LANDMARKS_LEFT_IRIS,
-        { color: "#30FF30" }
-      );
-        // [FaceLandmarker.FACE_LANDMARKS_TESSELATION, FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE, FaceLandmarker.FACE_LANDMARKS_LEFT_EYE]
-        //   .every((type, i) => drawingUtils.drawConnectors(landmarks, type, { color: "#C0C0C070", lineWidth: i == 0 ? 1 : 1 }))
+        // console.log(FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE);
+        // this.canvasCtx.beginPath();
+        // this.canvasCtx.moveTo(0, 0);
+        // this.canvasCtx.lineTo(300, 150);
+        // this.canvasCtx.stroke();
+        for(var i = 0; i < FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE.length; i++) {
+          var startArray = FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE[i].start
+          var endArray = FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE[i].end
+
+          var startPoint = landmarks[startArray]
+          var endPoint = landmarks[endArray]
+
+          // console.log(startPoint)
+          // console.log(endPoint)
+          // this.canvasCtx.lineWidth = 10;
+          this.canvasCtx.beginPath();
+          this.canvasCtx.moveTo((startPoint.x * this.video.videoWidth), (startPoint.y * this.video.videoHeight));
+          this.canvasCtx.lineTo((endPoint.x * this.video.videoWidth), (endPoint.y * this.video.videoHeight));
+          this.canvasCtx.strokeStyle = "red";
+          this.canvasCtx.stroke();
+        }
+        // drawingUtils.drawConnectors(
+        //   landmarks,
+        //   FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE,
+        //   { color: "#FF3030" }
+        // );
+        // drawingUtils.drawConnectors(
+        //   landmarks,
+        //   FaceLandmarker.FACE_LANDMARKS_LEFT_EYE,
+        //   { color: "#30FF30" }
+        // );
+
       };
       // Check if the user blinked (you can customize this to expect a smile, etc). Let's assume there is only one face.
-      if (results.faceLandmarks && results.faceBlendshapes && results.faceBlendshapes[0] && results.faceBlendshapes![0].categories?.find(
-        (shape: Category) => shape?.categoryName == "eyeBlinkRight")?.score > 0.4) (this.userDidBlink = true, console.log('Blink Blink'));
+      // if (results.faceLandmarks && results.faceBlendshapes && results.faceBlendshapes[0] && results.faceBlendshapes![0].categories?.find(
+      //   (shape: Category) => shape?.categoryName == "eyeBlinkRight")?.score > 0.4) (this.userDidBlink = true, console.log('Blink Blink'));
       // Call this function again to keep predicting when the browser is ready.
       this.tracking == true && window.requestAnimationFrame(predictWebcam);
     }
